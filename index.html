@@ -3,123 +3,34 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Trang Web Của Tôi</title>
+  <title>Trang Chủ</title>
   <style>
-    body {
-      background-color: #0f172a;
-      color: #ffffff;
-      font-family: Arial, sans-serif;
-      margin: 0;
-      padding: 20px;
-    }
-    
-    .header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 10px 20px;
-      background-color: #1e293b;
-      border-radius: 8px;
-    }
-
-    .admin-btn {
-      padding: 8px 16px;
-      border-radius: 20px;
-      background: #1a1f2c;
-      color: #fff;
-      border: 1px solid #3b82f6;
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      font-weight: bold;
-      transition: 0.3s;
-    }
-
-    .admin-btn:hover {
-      background: #2563eb;
-    }
-
-    /* Modal Popup Styles */
-    .modal-overlay {
-      display: none;
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background: rgba(0, 0, 0, 0.7);
-      z-index: 9999;
-      justify-content: center;
-      align-items: center;
-    }
-
-    .modal-box {
-      background: #1f293d;
-      padding: 25px;
-      border-radius: 12px;
-      width: 300px;
-      text-align: center;
-      box-shadow: 0 4px 20px rgba(0,0,0,0.5);
-    }
-
-    .modal-input {
-      width: 100%;
-      padding: 10px;
-      margin: 15px 0;
-      border-radius: 6px;
-      border: 1px solid #444;
-      background: #0f172a;
-      color: white;
-      box-sizing: border-box;
-      outline: none;
-    }
-
-    .btn-group {
-      display: flex;
-      gap: 10px;
-    }
-
-    .btn-submit {
-      flex: 1;
-      padding: 10px;
-      background: #2563eb;
-      color: white;
-      border: none;
-      border-radius: 6px;
-      cursor: pointer;
-      font-weight: bold;
-    }
-
-    .btn-cancel {
-      flex: 1;
-      padding: 10px;
-      background: #475569;
-      color: white;
-      border: none;
-      border-radius: 6px;
-      cursor: pointer;
-    }
+    body { background-color: #0f172a; color: #fff; font-family: Arial, sans-serif; margin: 0; padding: 20px; }
+    .header { display: flex; justify-content: space-between; align-items: center; padding: 10px 20px; background-color: #1e293b; border-radius: 8px; }
+    .admin-btn { padding: 8px 16px; border-radius: 20px; background: #1a1f2c; color: #fff; border: 1px solid #3b82f6; cursor: pointer; font-weight: bold; }
+    .modal-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.7); z-index: 9999; justify-content: center; align-items: center; }
+    .modal-box { background: #1f293d; padding: 25px; border-radius: 12px; width: 300px; text-align: center; }
+    .modal-input { width: 100%; padding: 10px; margin: 15px 0; border-radius: 6px; border: 1px solid #444; background: #0f172a; color: white; box-sizing: border-box; outline: none; }
+    .btn-group { display: flex; gap: 10px; }
+    .btn-submit { flex: 1; padding: 10px; background: #2563eb; color: white; border: none; border-radius: 6px; cursor: pointer; font-weight: bold; }
+    .btn-cancel { flex: 1; padding: 10px; background: #475569; color: white; border: none; border-radius: 6px; cursor: pointer; }
   </style>
 </head>
 <body>
 
-  <!-- Thanh Header chứa nút Admin -->
   <div class="header">
-    <h2>Logo / Tên Web</h2>
-    <button class="admin-btn" onclick="openLoginModal()">
-      <span>👤</span> Trang Admin
-    </button>
+    <h2>Trang Chủ</h2>
+    <button class="admin-btn" onclick="openLoginModal()">👤 Trang Admin</button>
   </div>
 
-  <!-- Hộp thoại Đăng nhập Admin (Modal) -->
+  <div style="margin-top: 40px; text-align: center;">
+    <h1>Nội dung trang web chính ở đây</h1>
+  </div>
+
   <div id="loginModal" class="modal-overlay">
     <div class="modal-box">
       <h3 style="margin-top: 0;">Đăng Nhập Admin</h3>
-      <p style="font-size: 13px; color: #aaa;">Chỉ người quản trị mới có quyền truy cập</p>
-      
       <input type="password" id="adminPassword" class="modal-input" placeholder="Nhập mật khẩu...">
-      
       <div class="btn-group">
         <button onclick="checkPassword()" class="btn-submit">Đăng nhập</button>
         <button onclick="closeLoginModal()" class="btn-cancel">Hủy</button>
@@ -128,12 +39,11 @@
   </div>
 
   <script>
-    // ĐỔI MẬT KHẨU CỦA BẠN TẠI ĐÂY
-    const ADMIN_PASS = "123456"; 
+    const ADMIN_PASS = "123456"; // Đổi mật khẩu của bạn tại đây
 
     function openLoginModal() {
-      if (sessionStorage.getItem("isLoggedIn") === "true") {
-        chuyenDenTrangAdmin();
+      if (sessionStorage.getItem("isAdmin") === "true") {
+        window.location.href = "admin.html";
       } else {
         document.getElementById("loginModal").style.display = "flex";
         document.getElementById("adminPassword").focus();
@@ -148,19 +58,12 @@
     function checkPassword() {
       const inputPass = document.getElementById("adminPassword").value;
       if (inputPass === ADMIN_PASS) {
-        alert("Đăng nhập thành công!");
-        sessionStorage.setItem("isLoggedIn", "true");
-        closeLoginModal();
-        chuyenDenTrangAdmin();
+        sessionStorage.setItem("isAdmin", "true");
+        window.location.href = "admin.html";
       } else {
-        alert("Sai mật khẩu! Vui lòng thử lại.");
+        alert("Sai mật khẩu!");
         document.getElementById("adminPassword").value = "";
       }
-    }
-
-    function chuyenDenTrangAdmin() {
-      // Thay 'admin.html' bằng file trang quản trị của bạn
-      window.location.href = "admin.html"; 
     }
   </script>
 </body>
