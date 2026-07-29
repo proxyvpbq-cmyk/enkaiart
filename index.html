@@ -1,66 +1,167 @@
 <!DOCTYPE html>
 <html lang="vi">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Enkai Art Agency | Trần Quang Trung</title>
-    <!-- Fonts & Icons -->
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Syne:wght@700;800&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Trang Web Của Tôi</title>
+  <style>
+    body {
+      background-color: #0f172a;
+      color: #ffffff;
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 20px;
+    }
+    
+    .header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 10px 20px;
+      background-color: #1e293b;
+      border-radius: 8px;
+    }
+
+    .admin-btn {
+      padding: 8px 16px;
+      border-radius: 20px;
+      background: #1a1f2c;
+      color: #fff;
+      border: 1px solid #3b82f6;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-weight: bold;
+      transition: 0.3s;
+    }
+
+    .admin-btn:hover {
+      background: #2563eb;
+    }
+
+    /* Modal Popup Styles */
+    .modal-overlay {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.7);
+      z-index: 9999;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .modal-box {
+      background: #1f293d;
+      padding: 25px;
+      border-radius: 12px;
+      width: 300px;
+      text-align: center;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.5);
+    }
+
+    .modal-input {
+      width: 100%;
+      padding: 10px;
+      margin: 15px 0;
+      border-radius: 6px;
+      border: 1px solid #444;
+      background: #0f172a;
+      color: white;
+      box-sizing: border-box;
+      outline: none;
+    }
+
+    .btn-group {
+      display: flex;
+      gap: 10px;
+    }
+
+    .btn-submit {
+      flex: 1;
+      padding: 10px;
+      background: #2563eb;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      font-weight: bold;
+    }
+
+    .btn-cancel {
+      flex: 1;
+      padding: 10px;
+      background: #475569;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+  </style>
 </head>
 <body>
 
-    <!-- Header Navigation -->
-    <header class="navbar">
-        <div class="logo">
-            <a href="index.html" class="logo-link">
-                <span class="brand">ENKAI</span>
-                <span class="sub-brand">ART AGENCY</span>
-            </a>
-        </div>
-        <nav class="nav-actions">
-            <a href="admin.html" class="btn-admin-link">
-                <i class="fa-solid fa-user-shield"></i> Trang Admin
-            </a>
-        </nav>
-    </header>
+  <!-- Thanh Header chứa nút Admin -->
+  <div class="header">
+    <h2>Logo / Tên Web</h2>
+    <button class="admin-btn" onclick="openLoginModal()">
+      <span>👤</span> Trang Admin
+    </button>
+  </div>
 
-    <!-- Hero Section -->
-    <section class="hero">
-        <div class="hero-content">
-            <p class="tagline">CREATIVE ART PORTFOLIO</p>
-            <h1>Trần Quang Trung</h1>
-            <p class="bio">Không gian trưng bày nghệ thuật thị giác & phương tiện truyền thông sáng tạo cao cấp thuộc sở hữu của Enkai Art Agency.</p>
-        </div>
-    </section>
-
-    <!-- Filter Bar -->
-    <div class="filter-bar">
-        <button class="filter-btn active" data-filter="all">Tất cả</button>
-        <button class="filter-btn" data-filter="image">Hình ảnh</button>
-        <button class="filter-btn" data-filter="video">Video</button>
+  <!-- Hộp thoại Đăng nhập Admin (Modal) -->
+  <div id="loginModal" class="modal-overlay">
+    <div class="modal-box">
+      <h3 style="margin-top: 0;">Đăng Nhập Admin</h3>
+      <p style="font-size: 13px; color: #aaa;">Chỉ người quản trị mới có quyền truy cập</p>
+      
+      <input type="password" id="adminPassword" class="modal-input" placeholder="Nhập mật khẩu...">
+      
+      <div class="btn-group">
+        <button onclick="checkPassword()" class="btn-submit">Đăng nhập</button>
+        <button onclick="closeLoginModal()" class="btn-cancel">Hủy</button>
+      </div>
     </div>
+  </div>
 
-    <!-- Gallery / Detail Container -->
-    <main class="main-container" id="main-content">
-        <!-- Nội dung danh sách hoặc trang chi tiết riêng biệt sẽ tự động hiển thị ở đây -->
-    </main>
+  <script>
+    // ĐỔI MẬT KHẨU CỦA BẠN TẠI ĐÂY
+    const ADMIN_PASS = "123456"; 
 
-    <!-- Footer & Tuyên bố miễn trừ trách nhiệm -->
-    <footer>
-        <div class="footer-container">
-            <div class="disclaimer-box">
-                <i class="fa-solid fa-shield-halved disclaimer-icon"></i>
-                <div>
-                    <h4>TUYÊN BỐ MIỄN TRỪ TRÁCH NHIỆM (DISCLAIMER)</h4>
-                    <p>Toàn bộ nội dung, hình ảnh và video được đăng tải trên website này thuộc bản quyền của <strong>Enkai Art Agency</strong> và tác giả <strong>Trần Quang Trung</strong>, ngoại trừ các tài nguyên sáng tạo được cấp phép hoặc nhúng từ nguồn bên thứ ba. Chúng tôi không chịu trách nhiệm đối với bất kỳ việc sử dụng lại nội dung khi chưa có sự đồng ý bằng văn bản chính thức từ chủ sở hữu.</p>
-                </div>
-            </div>
-            <p class="copyright">&copy; 2026 <strong>Enkai Art Agency</strong>. Tất cả quyền được bảo lưu. Sở hữu bởi <strong>Trần Quang Trung</strong>.</p>
-        </div>
-    </footer>
+    function openLoginModal() {
+      if (sessionStorage.getItem("isLoggedIn") === "true") {
+        chuyenDenTrangAdmin();
+      } else {
+        document.getElementById("loginModal").style.display = "flex";
+        document.getElementById("adminPassword").focus();
+      }
+    }
 
-    <script src="script.js"></script>
+    function closeLoginModal() {
+      document.getElementById("loginModal").style.display = "none";
+      document.getElementById("adminPassword").value = "";
+    }
+
+    function checkPassword() {
+      const inputPass = document.getElementById("adminPassword").value;
+      if (inputPass === ADMIN_PASS) {
+        alert("Đăng nhập thành công!");
+        sessionStorage.setItem("isLoggedIn", "true");
+        closeLoginModal();
+        chuyenDenTrangAdmin();
+      } else {
+        alert("Sai mật khẩu! Vui lòng thử lại.");
+        document.getElementById("adminPassword").value = "";
+      }
+    }
+
+    function chuyenDenTrangAdmin() {
+      // Thay 'admin.html' bằng file trang quản trị của bạn
+      window.location.href = "admin.html"; 
+    }
+  </script>
 </body>
 </html>
