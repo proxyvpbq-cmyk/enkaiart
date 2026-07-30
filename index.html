@@ -3,68 +3,98 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Trang Chủ</title>
+  <title>Enkai Art Agency - Trần Quang Trung</title>
   <style>
-    body { background-color: #0f172a; color: #fff; font-family: Arial, sans-serif; margin: 0; padding: 20px; }
-    .header { display: flex; justify-content: space-between; align-items: center; padding: 10px 20px; background-color: #1e293b; border-radius: 8px; }
-    .admin-btn { padding: 8px 16px; border-radius: 20px; background: #1a1f2c; color: #fff; border: 1px solid #3b82f6; cursor: pointer; font-weight: bold; }
-    .modal-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.7); z-index: 9999; justify-content: center; align-items: center; }
-    .modal-box { background: #1f293d; padding: 25px; border-radius: 12px; width: 300px; text-align: center; }
-    .modal-input { width: 100%; padding: 10px; margin: 15px 0; border-radius: 6px; border: 1px solid #444; background: #0f172a; color: white; box-sizing: border-box; outline: none; }
-    .btn-group { display: flex; gap: 10px; }
-    .btn-submit { flex: 1; padding: 10px; background: #2563eb; color: white; border: none; border-radius: 6px; cursor: pointer; font-weight: bold; }
-    .btn-cancel { flex: 1; padding: 10px; background: #475569; color: white; border: none; border-radius: 6px; cursor: pointer; }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { background-color: #0b132b; color: #e0e1dd; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; line-height: 1.6; }
+    
+    header { background: #1c2541; padding: 35px 20px; text-align: center; border-bottom: 2px solid #3a506b; }
+    header h1 { font-size: 2.2rem; color: #48cae4; letter-spacing: 2px; }
+    header p { color: #8d99ae; font-size: 1.1rem; margin-top: 5px; }
+    
+    .container { max-width: 1100px; margin: 40px auto; padding: 0 15px; }
+    
+    .section-title { font-size: 1.4rem; color: #48cae4; margin-bottom: 20px; border-left: 4px solid #00b4d8; padding-left: 10px; text-transform: uppercase; }
+    
+    /* Grid Tác Phẩm */
+    .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 25px; margin-bottom: 50px; }
+    .card { background: #1c2541; border-radius: 12px; overflow: hidden; border: 1px solid #3a506b; transition: transform 0.3s, box-shadow 0.3s; cursor: pointer; }
+    .card:hover { transform: translateY(-5px); box-shadow: 0 8px 25px rgba(0, 180, 216, 0.25); }
+    .card-media { width: 100%; height: 230px; object-fit: cover; background: #0b132b; }
+    .card-info { padding: 15px; }
+    .card-title { font-size: 1.15rem; color: #ffffff; font-weight: bold; margin-bottom: 6px; }
+    .card-date { font-size: 0.85rem; color: #48cae4; }
+
+    /* Phần Giới thiệu Sóng Đôi (Nằm cạnh nhau) */
+    .info-dual-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 25px; margin-top: 30px; }
+    .info-box { background: #1c2541; padding: 25px; border-radius: 12px; border: 1px solid #3a506b; }
+    .info-box h3 { color: #48cae4; margin-bottom: 12px; font-size: 1.25rem; display: flex; align-items: center; gap: 8px; }
+    .info-box p { color: #d8f3dc; font-size: 0.95rem; line-height: 1.7; }
+
+    /* Footer & Tuyên bố trách nhiệm */
+    footer { background: #070d1f; text-align: center; padding: 35px 20px; margin-top: 60px; border-top: 1px solid #1c2541; color: #6c757d; font-size: 0.85rem; }
+    .disclaimer { max-width: 900px; margin: 0 auto 15px auto; line-height: 1.5; color: #8d99ae; background: #0b132b; padding: 15px; border-radius: 8px; border: 1px solid #1c2541; text-align: justify; }
   </style>
 </head>
 <body>
 
-  <div class="header">
-    <h2>Trang Chủ</h2>
-    <button class="admin-btn" onclick="openLoginModal()">👤 Trang Admin</button>
-  </div>
+  <header>
+    <h1>ENKAI ART AGENCY</h1>
+    <p>Không Gian Nghệ Thuật & Trưng Bày Tác Phẩm</p>
+  </header>
 
-  <div style="margin-top: 40px; text-align: center;">
-    <h1>Nội dung trang web chính ở đây</h1>
-  </div>
+  <div class="container">
+    <h2 class="section-title">Danh Sách Tác Phẩm</h2>
+    <div class="grid" id="galleryGrid"></div>
 
-  <div id="loginModal" class="modal-overlay">
-    <div class="modal-box">
-      <h3 style="margin-top: 0;">Đăng Nhập Admin</h3>
-      <input type="password" id="adminPassword" class="modal-input" placeholder="Nhập mật khẩu...">
-      <div class="btn-group">
-        <button onclick="checkPassword()" class="btn-submit">Đăng nhập</button>
-        <button onclick="closeLoginModal()" class="btn-cancel">Hủy</button>
+    <!-- Giới thiệu Chủ sở hữu & Giới thiệu Tác phẩm nằm cạnh nhau -->
+    <h2 class="section-title">Giới Thiệu</h2>
+    <div class="info-dual-grid">
+      <div class="info-box">
+        <h3>👤 Về Chủ Sở Hữu</h3>
+        <p>
+          <strong>Trần Quang Trung</strong> là nhà sáng lập và đại diện pháp lý của thương hiệu <strong>Enkai Art Agency</strong>. Định hướng xây dựng không gian lưu trữ và quảng bá các sản phẩm nghệ thuật thị giác chất lượng cao, khẳng định bản sắc riêng biệt và tính sáng tạo không ngừng.
+        </p>
+      </div>
+
+      <div class="info-box">
+        <h3>🎨 Về Tác Phẩm Nghệ Thuật</h3>
+        <p>
+          Mỗi tác phẩm xuất hiện tại Enkai Art Agency là sự kết tinh giữa tư duy nghệ thuật hiện đại, sắc thái cảm xúc chân thực và sự chỉn chu trong từng đường nét. Bộ sưu tập hướng đến việc kết nối cảm xúc người xem qua từng góc nhìn độc bản.
+        </p>
       </div>
     </div>
   </div>
 
+  <footer>
+    <div class="disclaimer">
+      <strong>⚠️ TUYÊN BỐ MIỄN TRỪ TRÁCH NHIỆM (DISCLAIMER):</strong><br>
+      Toàn bộ hình ảnh, tài sản nội dung và các tác phẩm nghệ thuật được trưng bày trên website này thuộc quyền sở hữu trí tuệ duy nhất của <strong>Enkai Art Agency</strong> và ông <strong>Trần Quang Trung</strong>. Mọi hành vi sao chép, trích xuất, hoặc phân phối lại dưới bất kỳ hình thức nào khi chưa có sự chấp thuận chính thức bằng văn bản đều bị coi là vi phạm bản quyền theo quy định của pháp luật.
+    </div>
+    <p>&copy; 2026 Enkai Art Agency. All rights reserved.</p>
+  </footer>
+
+  <script src="data.js"></script>
   <script>
-    const ADMIN_PASS = "123456"; // Đổi mật khẩu của bạn tại đây
+    const grid = document.getElementById('galleryGrid');
+    galleryData.forEach(item => {
+      const card = document.createElement('div');
+      card.className = 'card';
+      card.onclick = () => window.location.href = `detail.html?id=${item.id}`;
+      
+      let mediaHtml = item.type === 'video' 
+        ? `<video class="card-media" src="${item.mediaUrl}" muted></video>`
+        : `<img class="card-media" src="${item.mediaUrl}" alt="${item.title}" loading="lazy">`;
 
-    function openLoginModal() {
-      if (sessionStorage.getItem("isAdmin") === "true") {
-        window.location.href = "admin.html";
-      } else {
-        document.getElementById("loginModal").style.display = "flex";
-        document.getElementById("adminPassword").focus();
-      }
-    }
-
-    function closeLoginModal() {
-      document.getElementById("loginModal").style.display = "none";
-      document.getElementById("adminPassword").value = "";
-    }
-
-    function checkPassword() {
-      const inputPass = document.getElementById("adminPassword").value;
-      if (inputPass === ADMIN_PASS) {
-        sessionStorage.setItem("isAdmin", "true");
-        window.location.href = "admin.html";
-      } else {
-        alert("Sai mật khẩu!");
-        document.getElementById("adminPassword").value = "";
-      }
-    }
+      card.innerHTML = `
+        ${mediaHtml}
+        <div class="card-info">
+          <div class="card-title">${item.title}</div>
+          <div class="card-date">📅 ${item.date}</div>
+        </div>
+      `;
+      grid.appendChild(card);
+    });
   </script>
 </body>
 </html>
