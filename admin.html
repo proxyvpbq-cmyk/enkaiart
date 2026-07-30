@@ -3,36 +3,84 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Trang Quản Trị (Admin)</title>
-  <script>
-    // Tự động kiểm tra: Chưa đăng nhập sẽ bị đẩy về index.html
-    if (sessionStorage.getItem("isAdmin") !== "true") {
-      alert("Bạn chưa đăng nhập!");
-      window.location.href = "index.html";
-    }
-  </script>
+  <title>Bảng Quản Trị - Enkai Art Agency</title>
   <style>
-    body { background-color: #0f172a; color: #fff; font-family: Arial, sans-serif; padding: 20px; }
-    .admin-header { display: flex; justify-content: space-between; align-items: center; background: #1e293b; padding: 15px 20px; border-radius: 8px; }
-    .logout-btn { padding: 8px 16px; background: #ef4444; color: white; border: none; border-radius: 6px; cursor: pointer; font-weight: bold; }
+    body { background: #0b132b; color: #fff; font-family: sans-serif; padding: 20px; }
+    .login-overlay { position: fixed; top:0; left:0; width:100%; height:100%; background:#0b132b; display:flex; justify-content:center; align-items:center; }
+    .box { background: #1c2541; padding: 25px; border-radius: 10px; max-width: 500px; width: 100%; border: 1px solid #3a506b; }
+    input, textarea, select { width: 100%; padding: 10px; margin: 10px 0; background: #0b132b; border: 1px solid #3a506b; color: white; border-radius: 5px; box-sizing: border-box; outline: none; }
+    button { padding: 12px; background: #00b4d8; border: none; color: white; font-weight: bold; border-radius: 5px; cursor: pointer; width: 100%; margin-top: 10px; }
+    button:hover { background: #48cae4; color: #000; }
+    pre { background: #000; padding: 15px; border-radius: 5px; color: #00ff66; overflow-x: auto; white-space: pre-wrap; font-size: 0.9rem; }
   </style>
 </head>
 <body>
 
-  <div class="admin-header">
-    <h2>⚙️ BẢNG QUẢN TRỊ ADMIN</h2>
-    <button class="logout-btn" onclick="logout()">Đăng xuất</button>
+  <!-- Đăng Nhập Protection -->
+  <div id="loginOverlay" class="login-overlay">
+    <div class="box" style="text-align: center;">
+      <h3 style="color:#48cae4; margin-bottom: 15px;">🔐 BẢNG QUẢN TRỊ ADMIN</h3>
+      <input type="password" id="passInput" placeholder="Nhập mật khẩu Admin...">
+      <button onclick="login()">Đăng Nhập</button>
+    </div>
   </div>
 
-  <div style="margin-top: 30px;">
-    <h3>Chào mừng Admin!</h3>
-    <p>Đây là giao diện quản trị dành riêng cho bạn.</p>
+  <!-- Form Đăng Bài Admin -->
+  <div id="adminPanel" class="box" style="display:none; margin: 0 auto;">
+    <h2 style="color:#48cae4; margin-bottom: 15px;">➕ Thêm Tác Phẩm Mới</h2>
+    
+    <label>Tiêu đề tác phẩm:</label>
+    <input type="text" id="title" placeholder="Nhập tiêu đề tác phẩm...">
+
+    <label>Loại tập tin:</label>
+    <select id="type">
+      <option value="image">Hình ảnh (Link Ảnh)</option>
+      <option value="video">Video (Link Video .mp4)</option>
+    </select>
+
+    <label>Link Ảnh/Video (Chèn URL trực tiếp):</label>
+    <input type="text" id="mediaUrl" placeholder="https://domain.com/anh.jpg">
+
+    <label>Ngày đăng tải:</label>
+    <input type="date" id="date">
+
+    <label>Mô tả & Nội dung tác phẩm:</label>
+    <textarea id="desc" rows="5" placeholder="Nhập mô tả chi tiết, cảm hứng sáng tác..."></textarea>
+
+    <button onclick="generateCode()">Tạo Mã Code Đăng Bài</button>
+
+    <div id="resultBox" style="display:none; margin-top: 20px;">
+      <p style="color:#48cae4; font-size: 0.9rem;">👇 Copy đoạn mã mã hóa bên dưới và dán thêm vào file <strong>data.js</strong> trên GitHub:</p>
+      <pre id="codeOutput"></pre>
+    </div>
   </div>
 
   <script>
-    function logout() {
-      sessionStorage.removeItem("isAdmin");
-      window.location.href = "index.html";
+    const ADMIN_PASS = "123456"; // Mật khẩu truy cập trang Admin
+
+    function login() {
+      if (document.getElementById("passInput").value === ADMIN_PASS) {
+        document.getElementById("loginOverlay").style.display = "none";
+        document.getElementById("adminPanel").style.display = "block";
+        document.getElementById("date").valueAsDate = new Date();
+      } else {
+        alert("Mật khẩu không chính xác!");
+      }
+    }
+
+    function generateCode() {
+      const newItem = {
+        id: "tp-" + Date.now(),
+        title: document.getElementById("title").value,
+        type: document.getElementById("type").value,
+        mediaUrl: document.getElementById("mediaUrl").value,
+        date: document.getElementById("date").value,
+        description: document.getElementById("desc").value
+      };
+
+      const jsonStr = JSON.stringify(newItem, null, 2);
+      document.getElementById("codeOutput").innerText = `,\n${jsonStr}`;
+      document.getElementById("resultBox").style.display = "block";
     }
   </script>
 </body>
