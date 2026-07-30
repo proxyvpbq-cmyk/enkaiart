@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Chi Tiết Tác Phẩm - Enkai Art Agency</title>
+  <style>
+    body { background-color: #0b132b; color: #e0e1dd; font-family: sans-serif; padding: 20px; margin: 0; }
+    .container { max-width: 850px; margin: 20px auto; background: #1c2541; padding: 25px; border-radius: 12px; border: 1px solid #3a506b; }
+    .back-btn { display: inline-block; color: #48cae4; text-decoration: none; margin-bottom: 20px; font-weight: bold; }
+    .media-box { width: 100%; max-height: 550px; border-radius: 8px; overflow: hidden; margin-bottom: 20px; text-align: center; background: #000; }
+    .media-box img, .media-box video { width: 100%; height: auto; max-height: 550px; object-fit: contain; }
+    h1 { color: #fff; margin-bottom: 10px; font-size: 1.8rem; }
+    .meta { color: #48cae4; font-size: 0.9rem; margin-bottom: 20px; border-bottom: 1px solid #3a506b; padding-bottom: 10px; }
+    .desc { font-size: 1.05rem; line-height: 1.8; color: #d8f3dc; white-space: pre-line; margin-bottom: 25px; }
+    .share-btn { padding: 12px 24px; background: #00b4d8; color: #fff; border: none; border-radius: 6px; cursor: pointer; font-weight: bold; }
+    .share-btn:hover { background: #90e0ef; color: #000; }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <a href="index.html" class="back-btn">← Quay lại trang chủ</a>
+    <div id="content"></div>
+    <button class="share-btn" onclick="copyLink()">🔗 Sao chép liên kết trang này</button>
+  </div>
+
+  <script src="data.js"></script>
+  <script>
+    const urlParams = new URLSearchParams(window.location.search);
+    const id = urlParams.get('id');
+    const item = galleryData.find(x => x.id === id);
+    const container = document.getElementById('content');
+
+    if (item) {
+      document.title = `${item.title} - Enkai Art Agency`;
+      let mediaEl = item.type === 'video' 
+        ? `<video controls src="${item.mediaUrl}"></video>`
+        : `<img src="${item.mediaUrl}" alt="${item.title}">`;
+
+      container.innerHTML = `
+        <h1>${item.title}</h1>
+        <div class="meta">Chủ sở hữu: Trần Quang Trung | Ngày đăng: ${item.date}</div>
+        <div class="media-box">${mediaEl}</div>
+        <div class="desc">${item.description}</div>
+      `;
+    } else {
+      container.innerHTML = `<h2 style="color:#ef4444;">Không tìm thấy tác phẩm!</h2>`;
+    }
+
+    function copyLink() {
+      navigator.clipboard.writeText(window.location.href);
+      alert('Đã sao chép liên kết tác phẩm vào bộ nhớ tạm!');
+    }
+  </script>
+</body>
+</html>
+
